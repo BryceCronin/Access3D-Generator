@@ -14,13 +14,15 @@ layout = [  [sg.Text('This is the Access 3D Custom Creator (WIP)')],
             [button.Rounded('Ok', 0.3), button.Rounded('Cancel', 0.3)]]
 
 # Create the Window
-window = sg.Window('Access3D Custom Creator', layout)
+window = sg.Window('Access3D Custom Creator', layout, icon='Code\Images\icon.ico')
 
 # Event Loop to process "events" and get the "values" of the inputs
 while True:
     event, values = window.read()
     if event == sg.WIN_CLOSED or event == 'Cancel': # if user closes window or clicks cancel
         break
+    if event == 'Output file test':
+        print(os.popen("")) # add test input file here to output STL file
     print('You entered ', values[0])
 
 window.close()
