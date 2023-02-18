@@ -8,13 +8,19 @@ sg.theme('Material2')
 
 # Window layout
 layout = [  
+    [sg.Text('')],
     [sg.Image('Images\Logo.png')],
-    [sg.Text('\nThis is the Access3D Generator (WIP)\n')],
+    [sg.Text('')],
+    [sg.Text('This is the (work-in-progress) Access3D Generator.')],
+    [sg.Text('It allows you to customise 3D-printable accessibility devices to your needs.')],
+    [sg.Text('Exported files are in the universal STL format - ready for 3D-printing anywhere.')],
+    [sg.Text('')],
     [sg.Text('Select A3D File:', key="text_input"), button.Rounded('Browse', 0.3, key="browse_input")],
     [sg.Text('Choose Output Folder:', key="text_output"), button.Rounded('Browse', 0.3, key="browse_output")],
     [sg.Text('')],
     [sg.Text('')],
     [button.Rounded('Generate 3D-Printable File', 0.3, key="button_export")],
+    [sg.Text('')],
 ]
 
 layout_about = [
@@ -22,7 +28,7 @@ layout_about = [
 ]
 
 # Create Window
-window = sg.Window('Access3D Custom Creator', layout, icon='Images\icon.ico')
+window = sg.Window('Access3D Generator', layout, icon='Images\icon.ico', element_justification='c')
 
 # Event Loop to process 'events' and get the 'values' of the inputs
 while True:
