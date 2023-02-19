@@ -13,9 +13,10 @@ layout_initial = [
     [sg.Text('Exported files are in the universal STL format - ready for 3D-printing anywhere.')],
     [sg.Text('')],
     [sg.Image('Images\inputFile.png', key="image_inputFile"), sg.Text('Select A3D File:', key="text_input"), button.Rounded('Browse', 0.3, key="browse_input")],
-    [sg.Image('Images\selectFolder.png', key="image_selectFolder"), sg.Text('Choose Output Folder:', key="text_output"), button.Rounded('Browse', 0.3, key="browse_output")],
+    [sg.Image('Images\selectFolder.png', key="image_selectFolder"), sg.Text('Select Output Folder:', key="text_output"), button.Rounded('Browse', 0.3, key="browse_output")],
     [sg.Text('')],
     [sg.Text('')],
+    [button.Rounded('ReadA3D', 0.3, key="button_readA3D", visible=True)], # For testing A3D file reader - remove in final app!
     [button.Rounded('Continue', 0.3, key="button_configure", visible=False)],
 ]
 

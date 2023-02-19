@@ -5,6 +5,11 @@ vartest = "A";
 LetterBlock(vartest);
 vartest2 = 30;
 vartest3=30;
+sphere=true;
+// A3D-Start
+// Boolean [sphere]{First checkbox - This does a really cool thing!}
+// Integer [vartest2]{An integer - Enter an integer in mm}
+// A3D-End
 
 // Module definition.
 // size=30 defines an optional parameter with a default value.
@@ -22,6 +27,10 @@ module LetterBlock(letter, size=30) {
                      valign="center");
         }
     }
+    if (sphere) {
+        sphere(15,15);
+    }
+    
 }
 
 echo(version=version());

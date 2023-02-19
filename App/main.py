@@ -48,7 +48,7 @@ while True:
             window['browse_output'].update("Change")
             window['image_selectFolder'].update('Images\selectFolder_done.png')
     if file_output == "":
-        window['text_output'].update("Choose Output Folder:")
+        window['text_output'].update("Select Output Folder:")
         window['browse_output'].update("Browse")
         window['image_selectFolder'].update('Images\selectFolder.png')
 
@@ -70,5 +70,37 @@ while True:
         openScadString = ('openscad -o ' + file_output + '/' + os.path.basename(file_input)[:-4] + '_output.stl -D"vartest2=5" ' + file_input)
         print(openScadString )
         subprocess.Popen(openScadString)
+
+    # Read A3D File
+    if event == 'button_readA3D':
+        print('Attempting to read A3D file...')
+
+        A3D_file = ((open(file_input)))
+        A3D_lines = (A3D_file.readlines()) # Each line in a list
+        A3D_lineCount = len(A3D_lines) # Number of lines
+        A3D_start = -1 # Line number of A3D-Start
+        A3D_end = - 1 # Line number of A3D-End
+
+        # Get Line number of A3D-Start
+        for x in range(A3D_lineCount):
+            search = A3D_lines[x].find("A3D-Start")
+            if search != -1:
+                A3D_start = x
+                break
+            else:
+                A3D_start = -1
+
+        # Get Line number of A3D-End
+        for x in range(A3D_lineCount):
+            search = A3D_lines[x].find("A3D-End")
+            if search != -1:
+                A3D_end = x
+                break
+            else:
+                A3D_end = -1
+
+        print('Starts at line ' + str(A3D_start+1))
+        print('Ends at line ' + str(A3D_end+1))
+
 
 window.close()
