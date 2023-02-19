@@ -63,6 +63,10 @@ while True:
             window['text_input'].update("Selected A3D File: " + os.path.basename(file_input))
             window['browse_input'].update("Change")
             window['image_inputFile'].update('Images\inputFile_done.png')
+    if file_input == "":
+        window['text_input'].update("Select A3D File:")
+        window['browse_input'].update("Browse")
+        window['image_inputFile'].update('Images\inputFile.png')
         
     # Select Output Location
     if event == "browse_output":
@@ -75,12 +79,6 @@ while True:
             window['text_output'].update("Selected Output Folder: ..." + file_output[-20:])
             window['browse_output'].update("Change")
             window['image_selectFolder'].update('Images\selectFolder_done.png')
-
-    # Reset input/output selections
-    if file_input == "":
-        window['text_input'].update("Select A3D File:")
-        window['browse_input'].update("Browse")
-        window['image_inputFile'].update('Images\inputFile.png')
     if file_output == "":
         window['text_output'].update("Choose Output Folder:")
         window['browse_output'].update("Browse")
@@ -100,9 +98,7 @@ while True:
 
     # Export STL File
     if event == 'button_export':
-        # In Future:
-            # Check if file already exists, increase number if it deoes
-            # Make sure A3D file and output folder has been selected
+        # In Future: Check if file already exists, increase number if it deoes
         print(('openscad -o ' + file_output + os.path.basename(file_input) + ' -D"vartest2=5" ' + file_input))
         subprocess.Popen('openscad -o ' + file_output + '/' + os.path.basename(file_input)[:-4] + '_output.stl -D"vartest2=5" ' + file_input)
 
