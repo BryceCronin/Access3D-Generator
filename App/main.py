@@ -6,10 +6,7 @@ import subprocess
 sg.theme('Material2') 
 
 # Window layout
-layout = [  
-    [sg.Text('')],
-    [sg.Image('Images\Logo.png')],
-    [sg.Text('')],
+layout_initial = [
     [sg.Text('This is the (work-in-progress) Access3D Generator App.')],
     [sg.Text('It allows you to customise 3D-printable accessibility devices to your needs.')],
     [sg.Text('Exported files are in the universal STL format - ready for 3D-printing anywhere.')],
@@ -18,13 +15,27 @@ layout = [
     [sg.Image('Images\selectFolder.png', key="image_selectFolder"), sg.Text('Choose Output Folder:', key="text_output"), button.Rounded('Browse', 0.3, key="browse_output")],
     [sg.Text('')],
     [sg.Text('')],
+    [button.Rounded('Continue', 0.3, key="button_configure")],
+]
+
+layout_configure = [
+    [button.Rounded('Back', 0.3, key="button_back")],
+    [sg.Text("\nPut device configuration here...\n")],
     [button.Rounded('Generate 3D-Printable File', 0.3, key="button_export")],
+]
+
+layout = [  
+    [sg.Text('')],
+    [sg.Image('Images\Logo.png')],
+    [sg.Text('')],
+    [sg.Column(layout_initial, key='column_initial', element_justification='c'), sg.Column(layout_configure, visible=False, key='column_configure', element_justification='c')],
     [sg.Text('')],
 ]
 
 # Create Window
 window = sg.Window('Access3D Generator', layout, icon='Images\icon.ico', element_justification='c')
 
+# Initiate variables
 file_input = ""
 file_output = ""
 
@@ -57,6 +68,16 @@ while True:
         window['browse_output'].update("Change")
         window['image_selectFolder'].update('Images\selectFolder_done.png')
 
+    # Continue to configure
+    if event == 'button_configure':
+        window['column_initial'].update(visible=False)
+        window['column_configure'].update(visible=True)
+
+    # Return to initial
+    if event == 'button_back':
+        window['column_initial'].update(visible=True)
+        window['column_configure'].update(visible=False)
+
     # Export STL File
     if event == 'button_export':
         # In Future:
@@ -65,6 +86,7 @@ while True:
         print(('openscad -o ' + file_output + os.path.basename(file_input) + ' -D"vartest2=5" ' + file_input))
         subprocess.Popen('openscad -o ' + file_output + '/' + os.path.basename(file_input)[:-4] + '_output.stl -D"vartest2=5" ' + file_input)
 
+    # Reset input/output selections
     if file_input == "":
         window['text_input'].update("Select A3D File:")
         window['browse_input'].update("Browse")
