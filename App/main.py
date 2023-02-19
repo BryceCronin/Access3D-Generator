@@ -2,6 +2,7 @@ import os
 import PySimpleGUI as sg
 import subprocess
 import layout
+import datetime
 
 # Create Window
 window = sg.Window('Access3D Generator', layout.layout, icon='Images\icon.ico', element_justification='c')
@@ -66,8 +67,10 @@ while True:
 
     # Export STL File
     if event == 'button_export':
-        # In Future: Check if file already exists, increase number if it deoes
-        openScadString = ('openscad -o ' + file_output + '/' + os.path.basename(file_input)[:-4] + '_output.stl -D"vartest2=5" ' + file_input)
+        outputFile = (file_output + '/' + os.path.basename(file_input)[:-4] + '.stl')
+        if (os.path.isfile(outputFile)):
+            outputFile = (file_output + '/' + os.path.basename(file_input)[:-4] + '_' + ((datetime.datetime.now()).strftime("%H %M %S")).replace(" ","-") )
+        openScadString = ('openscad -o ' + outputFile + '_output.stl -D"vartest2=5" ' + file_input)
         print(openScadString )
         subprocess.Popen(openScadString)
 
@@ -101,6 +104,10 @@ while True:
 
         print('Starts at line ' + str(A3D_start+1))
         print('Ends at line ' + str(A3D_end+1))
+
+        for x in range (A3D_start,A3D_end):
+            print(x)
+            # todo: convert each line of the A3D notation into buttons on the form
 
 
 window.close()
