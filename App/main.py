@@ -1,8 +1,7 @@
 import os
 import PySimpleGUI as sg
 import button
-import subprocess 
-from pathlib import Path
+import subprocess
 
 sg.theme('Material2') 
 
@@ -11,54 +10,68 @@ layout = [
     [sg.Text('')],
     [sg.Image('Images\Logo.png')],
     [sg.Text('')],
-    [sg.Text('This is the (work-in-progress) Access3D Generator.')],
+    [sg.Text('This is the (work-in-progress) Access3D Generator App.')],
     [sg.Text('It allows you to customise 3D-printable accessibility devices to your needs.')],
     [sg.Text('Exported files are in the universal STL format - ready for 3D-printing anywhere.')],
     [sg.Text('')],
-    [sg.Text('Select A3D File:', key="text_input"), button.Rounded('Browse', 0.3, key="browse_input")],
-    [sg.Text('Choose Output Folder:', key="text_output"), button.Rounded('Browse', 0.3, key="browse_output")],
+    [sg.Image('Images\inputFile.png', key="image_inputFile"), sg.Text('Select A3D File:', key="text_input"), button.Rounded('Browse', 0.3, key="browse_input")],
+    [sg.Image('Images\selectFolder.png', key="image_selectFolder"), sg.Text('Choose Output Folder:', key="text_output"), button.Rounded('Browse', 0.3, key="browse_output")],
     [sg.Text('')],
     [sg.Text('')],
     [button.Rounded('Generate 3D-Printable File', 0.3, key="button_export")],
     [sg.Text('')],
 ]
 
-layout_about = [
-    [sg.Text('\nBuilt using Python, OpenSCAD, PySimpleGUI')],
-]
-
 # Create Window
 window = sg.Window('Access3D Generator', layout, icon='Images\icon.ico', element_justification='c')
+
+file_input = ""
+file_output = ""
 
 # Event Loop to process 'events' and get the 'values' of the inputs
 while True:
     event, values = window.read()
 
+    # Close App
     if event == sg.WIN_CLOSED or event == 'Cancel': # if user closes window or clicks cancel
         break
 
-    if event == 'button_export':
-        print(('openscad -o ' + file_output + os.path.basename(file_input) + ' -D"vartest2=5" ' + file_input))
-        subprocess.Popen('openscad -o ' + file_output + '/' + os.path.basename(file_input)[:-4] + '_output.stl -D"vartest2=5" ' + file_input) # In future: check if file already exists, increase number if it deoes
-
+    # Input A3D File
     if event == "browse_input":
         file_input = sg.popup_get_file(
             "Select A3D File",
             file_types=((('A3D Files Only', '*.A3D'),)),
-            no_window = True,
-        )
+            no_window = True, )
         print('new browse input: ' + file_input)
         window['text_input'].update("Selected A3D File: " + os.path.basename(file_input))
         window['browse_input'].update("Change")
+        window['image_inputFile'].update('Images\inputFile_done.png')
 
+    # Select Output Location
     if event == "browse_output":
         file_output = sg.popup_get_folder(
             "Choose Output Location",
-            no_window = True,
-        )
+            no_window = True, )
         print('new browse output: ' + file_output)  
-        # window['text_output'].update("Selected Output Folder: " + os.path.basename(file_output))
         window['text_output'].update("Selected Output Folder: ..." + file_output[-20:])
         window['browse_output'].update("Change")
+        window['image_selectFolder'].update('Images\selectFolder_done.png')
+
+    # Export STL File
+    if event == 'button_export':
+        # In Future:
+            # Check if file already exists, increase number if it deoes
+            # Make sure A3D file and output folder has been selected
+        print(('openscad -o ' + file_output + os.path.basename(file_input) + ' -D"vartest2=5" ' + file_input))
+        subprocess.Popen('openscad -o ' + file_output + '/' + os.path.basename(file_input)[:-4] + '_output.stl -D"vartest2=5" ' + file_input)
+
+    if file_input == "":
+        window['text_input'].update("Select A3D File:")
+        window['browse_input'].update("Browse")
+        window['image_inputFile'].update('Images\inputFile.png')
+    if file_output == "":
+        window['text_output'].update("Choose Output Folder:")
+        window['browse_output'].update("Browse")
+        window['image_selectFolder'].update('Images\selectFolder.png')
 
 window.close()
