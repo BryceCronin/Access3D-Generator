@@ -3,6 +3,8 @@ from PySimpleGUI import Button, BUTTON_TYPE_READ_FORM, FILE_TYPES_ALL_FILES, the
 import io
 from base64 import b64encode
 
+# The following code was originally written by https://github.com/definite-d under the LGPL-3.0 license
+# More info: https://github.com/PySimpleGUI/PySimpleGUI/issues/3412#issuecomment-983052579
 def Rounded(button_text=' ', corner_radius=0, button_type=BUTTON_TYPE_READ_FORM, target=(None, None),
                   tooltip=None, file_types=FILE_TYPES_ALL_FILES, initial_folder=None, default_extension='',
                   disabled=False, change_submits=False, enable_events=False,
