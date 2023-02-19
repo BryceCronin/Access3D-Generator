@@ -67,7 +67,8 @@ while True:
     # Export STL File
     if event == 'button_export':
         # In Future: Check if file already exists, increase number if it deoes
-        print(('openscad -o ' + file_output + os.path.basename(file_input) + ' -D"vartest2=5" ' + file_input))
-        subprocess.Popen('openscad -o ' + file_output + '/' + os.path.basename(file_input)[:-4] + '_output.stl -D"vartest2=5" ' + file_input)
+        openScadString = ('openscad -o ' + file_output + '/' + os.path.basename(file_input)[:-4] + '_output.stl -D"vartest2=5" ' + file_input)
+        print(openScadString )
+        subprocess.Popen(openScadString)
 
 window.close()
