@@ -1,4 +1,5 @@
 import re
+import PySimpleGUI as sg
 import layout
 
 A3D_start = -1 # Line number of A3D-Start
@@ -47,15 +48,22 @@ def getEnd():
 
 def extractFields(start,end):
     global fieldList
+    
     # todo: convert each line of the A3D notation into buttons on the form using extend_layout
     print("EXTRACTING FIELDS START")
     for x in range(start+1,end):
         # Put current items into a list (type,title,desc)
         currentList = []
         # todo: add type here
-        currentList.append(re.findall(r'\[.*?\]', A3D_lines[x]))
-        currentList.append(re.findall(r'\{.*?\}', A3D_lines[x]))
+        currentList.append(re.findall(r'\[.*?\]', A3D_lines[x])) # variable
+        currentList.append(re.findall(r'\<.*?\>', A3D_lines[x])) # name
+        currentList.append(re.findall(r'\{.*?\}', A3D_lines[x])) # description
         fieldList.append(currentList)
+
+        # window.extend_layout(window['layout_settings'], currentList)
+        # sg.Window.extend_layout(sg.Window['layout_settings'], [[sg.T(currentList)]])
+        # sg.Window['layout_settings'].contents_changed()
+    
     print(fieldList)
     return(fieldList)
     

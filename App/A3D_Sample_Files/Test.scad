@@ -7,8 +7,8 @@ vartest2 = 30;
 vartest3=30;
 sphere=true;
 // A3D-Start
-// Boolean [sphere]{First checkbox - This does a really cool thing!}
-// Integer [vartest2]{An integer - Enter an integer in mm}
+// Boolean [sphere]<First Checkbox>{This does a really cool thing!}
+// Integer [vartest2]<An integer>{Enter an integer in mm}
 // A3D-End
 
 // Module definition.

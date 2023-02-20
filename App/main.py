@@ -91,8 +91,12 @@ while True:
 
     # Read A3D File
     if event == 'button_readA3D':
-       A3D.initiateFile(file_input)
-       A3D.extractFields(A3D.getStart(),A3D.getEnd())
-
+        A3D.initiateFile(file_input)
+        list = A3D.extractFields(A3D.getStart(),A3D.getEnd())
+        # print(str((A3D.extractFields(A3D.getStart(),A3D.getEnd()))[1][1]))
+        for x in range(len(list)):
+            for y in range(len(list[x])):
+                window.extend_layout(window['config_column'], [[sg.Text(str((A3D.extractFields(A3D.getStart(),A3D.getEnd()))[x][y]))]])
 
 window.close()
+
