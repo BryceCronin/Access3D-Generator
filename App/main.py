@@ -13,6 +13,7 @@ file_input = ""
 file_output = ""
 file_valid = True
 
+
 # Event Loop to process 'events' and get the 'values' of the inputs
 while True:
     event, values = window.read()
@@ -91,7 +92,8 @@ while True:
 
     # Read A3D File
     if event == 'button_readA3D':
-        print('is file valid?: ' + str(A3D.initiateFile(file_input)))
+       A3D.initiateFile(file_input)
+       A3D.extractFields(A3D.getStart(),A3D.getEnd())
 
 
 window.close()
