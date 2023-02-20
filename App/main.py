@@ -69,10 +69,11 @@ while True:
         window['image_selectFolder'].update('Images\selectFolder.png')
 
     # Continue to configure
+    if file_input != "" and file_output != "" and file_valid == True:
+        window['button_configure'].update(visible=True)
     if event == 'button_configure':
         window['column_initial'].update(visible=False)
         window['column_configure'].update(visible=True)
-            
 
     # Return to initial
     if event == 'button_back':

@@ -15,14 +15,13 @@ layout_initial = [
     [sg.Image('Images\inputFile.png', key="image_inputFile"), sg.Text('Select A3D File:', key="text_input"), button.Rounded('Browse', 0.3, key="browse_input")],
     [sg.Image('Images\selectFolder.png', key="image_selectFolder"), sg.Text('Select Output Folder:', key="text_output"), button.Rounded('Browse', 0.3, key="browse_output")],
     [sg.Text('')],
-    [sg.Text('')],
-    [button.Rounded('ReadA3D', 0.3, key="button_readA3D", visible=True)], # For testing A3D file reader - remove in final app!
     [sg.Text("\nWhoops! It looks like the selected file is corrupted, please select a different A3D file and try again\n", key='invalidFile', visible=False)],
     [button.Rounded('Continue', 0.3, key="button_configure", visible=False)],
 ]
 
 layout_configure = [
     [button.Rounded('Back', 0.3, key="button_back", button_color=(button_secondary_color,button_secondary_background),mouseover_colors=(button_secondary_color,"white"))],
+    [button.Rounded('Test: ReadA3D', 0.3, key="button_readA3D", visible=True)], # For testing A3D file reader - remove in final app!
     [sg.Text("\nPut device configuration here...\n")],
     [button.Rounded('Generate 3D-Printable File', 0.3, key="button_export")],
 ]
