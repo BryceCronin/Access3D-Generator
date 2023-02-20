@@ -3,6 +3,7 @@ import PySimpleGUI as sg
 import subprocess
 import layout
 import datetime
+import A3D
 
 # Create Window
 window = sg.Window('Access3D Generator', layout.layout, icon='Images\icon.ico', element_justification='c')
@@ -10,6 +11,7 @@ window = sg.Window('Access3D Generator', layout.layout, icon='Images\icon.ico', 
 # Initiate variables
 file_input = ""
 file_output = ""
+file_valid = True
 
 # Event Loop to process 'events' and get the 'values' of the inputs
 while True:
@@ -27,12 +29,25 @@ while True:
             no_window = True,
             history=True )
         if selected != "":
-            file_input = selected
-            print('new browse input: ' + file_input)
-            window['text_input'].update("Selected A3D File: " + os.path.basename(file_input))
-            window['browse_input'].update("Change")
-            window['image_inputFile'].update('Images\inputFile_done.png')
-    if file_input == "":
+            if (A3D.initiateFile(selected) == True): # Valid A3D file
+                file_input = selected
+                if file_input != "" and file_output != "":
+                    window['button_configure'].update(visible=True)
+                print('new browse input: ' + file_input)
+                window['invalidFile'].update(visible=False)
+                window['text_input'].update("Selected A3D File: " + os.path.basename(file_input))
+                window['browse_input'].update("Change")
+                window['image_inputFile'].update('Images\inputFile_done.png')
+                file_valid = True
+            else: # Invalid A3D file
+                file_input = selected
+                window['button_configure'].update(visible=False)
+                window['invalidFile'].update(visible=True)
+                window['text_input'].update("Invalid A3D File: " + os.path.basename(file_input))
+                window['browse_input'].update("Replace")
+                window['image_inputFile'].update('Images\inputFile_error.png')
+                file_valid = False
+    if file_input == "" and file_valid == True:
         window['text_input'].update("Select A3D File:")
         window['browse_input'].update("Browse")
         window['image_inputFile'].update('Images\inputFile.png')
@@ -54,11 +69,10 @@ while True:
         window['image_selectFolder'].update('Images\selectFolder.png')
 
     # Continue to configure
-    if file_input != "" and file_output != "":
-        window['button_configure'].update(visible=True)
     if event == 'button_configure':
         window['column_initial'].update(visible=False)
         window['column_configure'].update(visible=True)
+            
 
     # Return to initial
     if event == 'button_back':
@@ -76,38 +90,7 @@ while True:
 
     # Read A3D File
     if event == 'button_readA3D':
-        print('Attempting to read A3D file...')
-
-        A3D_file = ((open(file_input)))
-        A3D_lines = (A3D_file.readlines()) # Each line in a list
-        A3D_lineCount = len(A3D_lines) # Number of lines
-        A3D_start = -1 # Line number of A3D-Start
-        A3D_end = - 1 # Line number of A3D-End
-
-        # Get Line number of A3D-Start
-        for x in range(A3D_lineCount):
-            search = A3D_lines[x].find("A3D-Start")
-            if search != -1:
-                A3D_start = x
-                break
-            else:
-                A3D_start = -1
-
-        # Get Line number of A3D-End
-        for x in range(A3D_lineCount):
-            search = A3D_lines[x].find("A3D-End")
-            if search != -1:
-                A3D_end = x
-                break
-            else:
-                A3D_end = -1
-
-        print('Starts at line ' + str(A3D_start+1))
-        print('Ends at line ' + str(A3D_end+1))
-
-        for x in range (A3D_start,A3D_end):
-            print(x)
-            # todo: convert each line of the A3D notation into buttons on the form
+        print('is file valid?: ' + str(A3D.initiateFile(file_input)))
 
 
 window.close()

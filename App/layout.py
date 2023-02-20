@@ -17,6 +17,7 @@ layout_initial = [
     [sg.Text('')],
     [sg.Text('')],
     [button.Rounded('ReadA3D', 0.3, key="button_readA3D", visible=True)], # For testing A3D file reader - remove in final app!
+    [sg.Text("\nWhoops! It looks like the selected file is corrupted, please select a different A3D file and try again\n", key='invalidFile', visible=False)],
     [button.Rounded('Continue', 0.3, key="button_configure", visible=False)],
 ]
 
