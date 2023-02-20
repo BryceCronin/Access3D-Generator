@@ -13,7 +13,6 @@ file_input = ""
 file_output = ""
 file_valid = True
 
-
 # Event Loop to process 'events' and get the 'values' of the inputs
 while True:
     event, values = window.read()

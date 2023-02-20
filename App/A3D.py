@@ -1,7 +1,11 @@
+import re
+import layout
+
 A3D_start = -1 # Line number of A3D-Start
 A3D_end = - 1 # Line number of A3D-End
 A3D_file = 0
 A3D_lines = 0
+fieldList = []
 
 def initiateFile (filePath):
     global A3D_start
@@ -42,8 +46,16 @@ def getEnd():
     return A3D_end
 
 def extractFields(start,end):
-    # todo: convert each line of the A3D notation into buttons on the form
+    global fieldList
+    # todo: convert each line of the A3D notation into buttons on the form using extend_layout
     print("EXTRACTING FIELDS START")
     for x in range(start+1,end):
-        print(A3D_lines[x])
-        
+        # Put current items into a list (type,title,desc)
+        currentList = []
+        # todo: add type here
+        currentList.append(re.findall(r'\[.*?\]', A3D_lines[x]))
+        currentList.append(re.findall(r'\{.*?\}', A3D_lines[x]))
+        fieldList.append(currentList)
+    print(fieldList)
+    return(fieldList)
+    
