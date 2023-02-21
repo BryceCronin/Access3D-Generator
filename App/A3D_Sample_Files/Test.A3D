@@ -9,6 +9,9 @@ sphere=true;
 // A3D-Start
 // Boolean [sphere]<First Checkbox>{This does a really cool thing!}
 // Integer [vartest2]<An integer>{Enter an integer in mm}
+// Integer [vartest3]<An integer>{Enter an integer in mm!!!}
+// Integer [vartest4]<test>{Enter an integer in mm!!!!!!!!}
+// Boolean [booleans!]<2nd Checkbox>{Hello world}
 // A3D-End
 
 // Module definition.

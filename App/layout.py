@@ -7,7 +7,7 @@ button_secondary_background = "#CFD8DC"
 button_secondary_color = "#212121"
 # Window layout
 layout_settings = [
-    [sg.Text('\nPut device configuration here...\n')],
+    [sg.Text('')],
 ]
 
 layout_initial = [
@@ -23,8 +23,8 @@ layout_initial = [
 ]
 
 layout_configure = [
-    [button.Rounded('Back', 0.3, key="button_back", button_color=(button_secondary_color,button_secondary_background),mouseover_colors=(button_secondary_color,"white"))],
-    [button.Rounded('Test: ReadA3D', 0.3, key="button_readA3D", visible=True)], # For testing A3D file reader - remove in final app!
+    # [button.Rounded('Back', 0.3, key="button_back", button_color=(button_secondary_color,button_secondary_background),mouseover_colors=(button_secondary_color,"white"))], # Do we even need a back button?
+    # [button.Rounded('Test: ReadA3D', 0.3, key="button_readA3D", visible=True)], # For testing A3D file reader - remove in final app!
     [sg.Column(layout_settings, key='config_column', element_justification='l')],
     [sg.Text('')],
     [button.Rounded('Generate 3D-Printable File', 0.3, key="button_export")],

@@ -63,11 +63,6 @@ def extractFields(start,end):
         elif A3D_lines[x].__contains__("Integer"):
             currentList.append('integer')
         fieldList.append(currentList)
-
-        # window.extend_layout(window['layout_settings'], currentList)
-        # sg.Window.extend_layout(sg.Window['layout_settings'], [[sg.T(currentList)]])
-        # sg.Window['layout_settings'].contents_changed()
-    
+  
     print(fieldList)
     return(fieldList)
-    

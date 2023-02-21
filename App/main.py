@@ -77,22 +77,6 @@ while True:
         window['column_initial'].update(visible=False)
         window['column_configure'].update(visible=True)
 
-    # Return to initial
-    if event == 'button_back':
-        window['column_initial'].update(visible=True)
-        window['column_configure'].update(visible=False)
-
-    # Export STL File
-    if event == 'button_export':
-        outputFile = (file_output + '/' + os.path.basename(file_input)[:-4] + '.stl')
-        if (os.path.isfile(outputFile)):
-            outputFile = (file_output + '/' + os.path.basename(file_input)[:-4] + '_' + ((datetime.datetime.now()).strftime("%H %M %S")).replace(" ","-") )
-        openScadString = ('openscad -o ' + outputFile + '_output.stl -D"vartest2=5" ' + file_input)
-        print(openScadString )
-        subprocess.Popen(openScadString)
-
-    # Read A3D File
-    if event == 'button_readA3D':
         A3D.initiateFile(file_input)
         list = A3D.extractFields(A3D.getStart(),A3D.getEnd())
         for x in range(len(list)):
@@ -117,8 +101,20 @@ while True:
             elif (str((A3D.extractFields(A3D.getStart(),A3D.getEnd()))[x][3])).__contains__('integer'):
                 config_line = sg.Input("0", key=id, size=8), sg.Text(title + ' ' + desc)
             window.extend_layout(window['config_column'], [config_line])
-            
-            
+
+    # Return to initial
+    if event == 'button_back':
+        window['column_initial'].update(visible=True)
+        window['column_configure'].update(visible=False)
+
+    # Export STL File
+    if event == 'button_export':
+        outputFile = (file_output + '/' + os.path.basename(file_input)[:-4] + '.stl')
+        if (os.path.isfile(outputFile)):
+            outputFile = (file_output + '/' + os.path.basename(file_input)[:-4] + '_' + ((datetime.datetime.now()).strftime("%H %M %S")).replace(" ","-") )
+        openScadString = ('openscad -o ' + outputFile + '_output.stl -D"vartest2=5" ' + file_input)
+        print(openScadString )
+        subprocess.Popen(openScadString)           
 
 window.close()
 
