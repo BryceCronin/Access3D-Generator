@@ -27,7 +27,8 @@ while True:
             "Select A3D File",
             file_types=((('A3D Files Only', '*.A3D'),)),
             no_window = True,
-            history=True )
+            history=True,
+            initial_folder="A3D_Sample_files", )
         if selected != "":
             if (A3D.initiateFile(selected) == True): # Valid A3D file
                 file_input = selected
@@ -56,7 +57,8 @@ while True:
     if event == "browse_output":
         selected = sg.popup_get_folder(
             "Choose Output Location",
-            no_window = True, )
+            no_window = True,
+            initial_folder="Output", )
         if selected != "":
             file_output = selected
             print('new browse output: ' + file_output)  
@@ -93,10 +95,30 @@ while True:
     if event == 'button_readA3D':
         A3D.initiateFile(file_input)
         list = A3D.extractFields(A3D.getStart(),A3D.getEnd())
-        # print(str((A3D.extractFields(A3D.getStart(),A3D.getEnd()))[1][1]))
         for x in range(len(list)):
+            id = ""
+            desc = ""
+            title = ""
+            type = ""
+            config_line = ""
+
             for y in range(len(list[x])):
-                window.extend_layout(window['config_column'], [[sg.Text(str((A3D.extractFields(A3D.getStart(),A3D.getEnd()))[x][y]))]])
+                if y == 0:
+                    id = (str((A3D.extractFields(A3D.getStart(),A3D.getEnd()))[x][y]))
+                elif y == 1:
+                    title = (str((A3D.extractFields(A3D.getStart(),A3D.getEnd()))[x][y]))
+                elif y == 2:
+                    desc += (str((A3D.extractFields(A3D.getStart(),A3D.getEnd()))[x][y]))
+                elif y == 3:
+                    type += (str((A3D.extractFields(A3D.getStart(),A3D.getEnd()))[x][y]))
+            
+            if (str((A3D.extractFields(A3D.getStart(),A3D.getEnd()))[x][3])).__contains__('boolean'):
+                config_line = sg.Checkbox(title, key=id,), sg.Text(desc)
+            elif (str((A3D.extractFields(A3D.getStart(),A3D.getEnd()))[x][3])).__contains__('integer'):
+                config_line = sg.Input("0", key=id, size=8), sg.Text(title + ' ' + desc)
+            window.extend_layout(window['config_column'], [config_line])
+            
+            
 
 window.close()
 

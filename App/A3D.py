@@ -58,6 +58,10 @@ def extractFields(start,end):
         currentList.append(re.findall(r'\[.*?\]', A3D_lines[x])) # variable
         currentList.append(re.findall(r'\<.*?\>', A3D_lines[x])) # name
         currentList.append(re.findall(r'\{.*?\}', A3D_lines[x])) # description
+        if A3D_lines[x].__contains__("Boolean"):
+            currentList.append('boolean')
+        elif A3D_lines[x].__contains__("Integer"):
+            currentList.append('integer')
         fieldList.append(currentList)
 
         # window.extend_layout(window['layout_settings'], currentList)

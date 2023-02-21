@@ -26,6 +26,7 @@ layout_configure = [
     [button.Rounded('Back', 0.3, key="button_back", button_color=(button_secondary_color,button_secondary_background),mouseover_colors=(button_secondary_color,"white"))],
     [button.Rounded('Test: ReadA3D', 0.3, key="button_readA3D", visible=True)], # For testing A3D file reader - remove in final app!
     [sg.Column(layout_settings, key='config_column', element_justification='l')],
+    [sg.Text('')],
     [button.Rounded('Generate 3D-Printable File', 0.3, key="button_export")],
 ]
 
