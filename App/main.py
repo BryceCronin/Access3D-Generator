@@ -109,9 +109,7 @@ while True:
 
     # Export STL File
     if event == 'button_export':
-        outputFile = (file_output + '/' + os.path.basename(file_input)[:-4] + '.stl')
-        if (os.path.isfile(outputFile)):
-            outputFile = (file_output + '/' + os.path.basename(file_input)[:-4] + '_' + ((datetime.datetime.now()).strftime("%H %M %S")).replace(" ","-") )
+        outputFile = (file_output + '/' + os.path.basename(file_input)[:-4] + '_'+ ((datetime.datetime.now()).strftime("%Y %m %d")).replace(" ","-") + "_" + ((datetime.datetime.now()).strftime("%H %M %S")).replace(" ","-") )
         openScadString = ('openscad -o ' + outputFile + '_output.stl -D"vartest2=5" ' + file_input)
         print(openScadString )
         subprocess.Popen(openScadString)           
