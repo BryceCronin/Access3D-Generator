@@ -28,7 +28,7 @@ layout_configure = [
     [sg.Column(layout_settings, key='config_column', element_justification='l')],
     [sg.Text('')],
     [button.Rounded('Generate 3D-Printable File', 0.3, key="button_export")],
-    [sg.Column(layout=[[sg.Canvas(key='fig_cv',size=(400 * 2, 400))]],background_color='#DAE0E6',pad=(0, 0))],
+    [sg.Column(layout=[[sg.Canvas(key='fig_cv',size=(300, 300))]],background_color='#FFF',pad=(0, 0))],
 ]
 
 layout = [  
