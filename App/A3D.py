@@ -49,12 +49,10 @@ def getEnd():
 def extractFields(start,end):
     global fieldList
     
-    # todo: convert each line of the A3D notation into buttons on the form using extend_layout
     print("EXTRACTING FIELDS START")
     for x in range(start+1,end):
         # Put current items into a list (type,title,desc)
         currentList = []
-        # todo: add type here
         currentList.append(re.findall(r'\[.*?\]', A3D_lines[x])) # variable
         currentList.append(re.findall(r'\<.*?\>', A3D_lines[x])) # name
         currentList.append(re.findall(r'\{.*?\}', A3D_lines[x])) # description
@@ -62,7 +60,13 @@ def extractFields(start,end):
             currentList.append('boolean')
         elif A3D_lines[x].__contains__("Integer"):
             currentList.append('integer')
+        # Then add list to list of list
         fieldList.append(currentList)
-  
-    print(fieldList)
+    
     return(fieldList)
+
+def formatString(str):
+    # Removes the ['( characters from front and end of string
+    newString = str[3:]
+    newString = newString[:-3]
+    return newString

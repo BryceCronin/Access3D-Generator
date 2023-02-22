@@ -7,11 +7,11 @@ vartest2 = 30;
 vartest3=30;
 sphere=true;
 // A3D-Start
-// Boolean [sphere]<First Checkbox>{This does a really cool thing!}
-// Integer [vartest2]<An integer>{Enter an integer in mm}
-// Integer [vartest3]<An integer>{Enter an integer in mm!!!}
-// Integer [vartest4]<test>{Enter an integer in mm!!!!!!!!}
-// Boolean [booleans!]<2nd Checkbox>{Hello world}
+// Boolean [sphere]<Sphere>{Generate an extra sphere for testing?}
+// Integer [vartest2]<Width>{Enter a number in mm}
+// Integer [vartest3]<Height>{Enter a number in mm}
+// Integer [vartest4]<Depth>{Enter a number in mm}
+// Boolean [test2]<Corrupt>{Tick this button to corrupt the exported STL(For testing)}
 // A3D-End
 
 // Module definition.

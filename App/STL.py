@@ -10,7 +10,7 @@ def prepare_STL():
     axes = figure.add_subplot(projection='3d')
     
     # Load the STL files and add the vectors to the plot
-    your_mesh = mesh.Mesh.from_file('Output\output.stl') # todo: load and update actual STL file
+    your_mesh = mesh.Mesh.from_file('Output\Test2.stl') # todo: load and update actual STL file
     axes.add_collection3d(mplot3d.art3d.Poly3DCollection(your_mesh.vectors))
     polymesh = mplot3d.art3d.Poly3DCollection(your_mesh.vectors)
 

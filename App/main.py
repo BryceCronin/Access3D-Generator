@@ -99,9 +99,9 @@ while True:
                     type += (str((A3D.extractFields(A3D.getStart(),A3D.getEnd()))[x][y]))
             
             if (str((A3D.extractFields(A3D.getStart(),A3D.getEnd()))[x][3])).__contains__('boolean'):
-                config_line = sg.Checkbox(title, key=id,), sg.Text(desc)
+                config_line = sg.Checkbox(A3D.formatString(title), key=id,), sg.Text(A3D.formatString(desc))
             elif (str((A3D.extractFields(A3D.getStart(),A3D.getEnd()))[x][3])).__contains__('integer'):
-                config_line = sg.Input("0", key=id, size=8), sg.Text(title + ' ' + desc)
+                config_line = sg.Input("0", key=id, size=8), sg.Text(A3D.formatString(title) + ' ' + A3D.formatString(desc))
             window.extend_layout(window['config_column'], [config_line])
 
         STL.draw_STL(window['fig_cv'].TKCanvas, STL.prepare_STL())
