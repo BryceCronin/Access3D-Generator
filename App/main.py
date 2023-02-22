@@ -4,6 +4,8 @@ import subprocess
 import layout
 import datetime
 import A3D
+import STL
+import PySimpleGUI as sg
 
 # Create Window
 window = sg.Window('Access3D Generator', layout.layout, icon='Images\icon.ico', element_justification='c')
@@ -102,6 +104,8 @@ while True:
                 config_line = sg.Input("0", key=id, size=8), sg.Text(title + ' ' + desc)
             window.extend_layout(window['config_column'], [config_line])
 
+        STL.draw_STL(window['fig_cv'].TKCanvas, STL.prepare_STL())
+
     # Return to initial
     if event == 'button_back':
         window['column_initial'].update(visible=True)
@@ -115,4 +119,3 @@ while True:
         subprocess.Popen(openScadString)           
 
 window.close()
-
