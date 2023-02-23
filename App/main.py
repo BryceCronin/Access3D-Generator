@@ -7,8 +7,15 @@ import A3D
 import STL
 import PySimpleGUI as sg
 
+default_font = "Arial 13 normal"
+bold_font = "Arial 13 bold"
+
 # Create Window
-window = sg.Window('Access3D Generator', layout.layout, icon='Images\icon.ico', element_justification='c')
+window = sg.Window('Access3D Generator', layout.layout, icon='Images\icon.ico', element_justification='c', margins=(0,0), font=default_font)
+
+checked = 'Images\inputCheckbox_1.png'
+unchecked = 'Images\inputCheckbox_0.png'
+data = {0:unchecked, 1:checked}
 
 # Initiate variables
 file_input = ""
@@ -99,9 +106,9 @@ while True:
                     type += (str((A3D.extractFields(A3D.getStart(),A3D.getEnd()))[x][y]))
             
             if (str((A3D.extractFields(A3D.getStart(),A3D.getEnd()))[x][3])).__contains__('boolean'):
-                config_line = sg.Checkbox(A3D.formatString(title), key=id,), sg.Text(A3D.formatString(desc))
+                config_line = sg.Image('Images\inputCheckbox_0.png', enable_events=True, metadata=False, key=('CHECK', x)), sg.Text(A3D.formatString(title), pad=((15,0),(0,0)), font=bold_font, text_color="#263238"),sg.Text(A3D.formatString(desc), pad=8, font=default_font, text_color="#455A64"),
             elif (str((A3D.extractFields(A3D.getStart(),A3D.getEnd()))[x][3])).__contains__('integer'):
-                config_line = sg.Input("0", key=id, size=8), sg.Text(A3D.formatString(title) + ' ' + A3D.formatString(desc))
+                config_line = sg.Image('Images\inputRounded_l.png', pad=(0,0)),sg.Input("0", key=id, size=7, background_color="#BBDEFB", text_color="#263238", pad=(0,0), font=bold_font, justification="center"),sg.Image('Images\inputRounded_r.png', pad=(0,0)), sg.Text(A3D.formatString(title), pad=((15,0),(0,0)), font=bold_font, text_color="#263238"),sg.Text(A3D.formatString(desc), pad=8, font=default_font, text_color="#455A64"),
             window.extend_layout(window['config_column'], [config_line])
 
         STL.draw_STL(window['fig_cv'].TKCanvas, STL.prepare_STL('Output\Test2.stl'))
@@ -119,5 +126,10 @@ while True:
         subprocess.Popen(openScadString)     
         # Then, display new STL preview      
         STL.draw_STL(window['fig_cv'].TKCanvas, STL.update_STL('Output\output.stl'))
+
+    if isinstance(event, tuple) and event[0]=='CHECK':
+        state = not window[event].metadata
+        window[event].metadata = state
+        window[event].update(filename=data[state])
 
 window.close()
