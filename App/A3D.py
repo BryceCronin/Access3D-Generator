@@ -9,7 +9,7 @@ A3D_lines = 0
 fieldList = []
 
 def initiateFile (filePath):
-    global A3D_start
+    global A3D_start 
     global A3D_end
     global A3D_file
     global A3D_lines
@@ -49,7 +49,6 @@ def getEnd():
 def extractFields(start,end):
     global fieldList
     
-    print("EXTRACTING FIELDS START")
     for x in range(start+1,end):
         # Put current items into a list (type,title,desc)
         currentList = []

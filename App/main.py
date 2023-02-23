@@ -104,7 +104,7 @@ while True:
                 config_line = sg.Input("0", key=id, size=8), sg.Text(A3D.formatString(title) + ' ' + A3D.formatString(desc))
             window.extend_layout(window['config_column'], [config_line])
 
-        STL.draw_STL(window['fig_cv'].TKCanvas, STL.prepare_STL())
+        STL.draw_STL(window['fig_cv'].TKCanvas, STL.prepare_STL('Output\Test2.stl'))
 
     # Return to initial
     if event == 'button_back':
@@ -116,6 +116,8 @@ while True:
         outputFile = (file_output + '/' + os.path.basename(file_input)[:-4] + '_'+ ((datetime.datetime.now()).strftime("%Y %m %d")).replace(" ","-") + "_" + ((datetime.datetime.now()).strftime("%H %M %S")).replace(" ","-") )
         openScadString = ('openscad -o ' + outputFile + '_output.stl -D"vartest2=5" ' + file_input)
         print(openScadString )
-        subprocess.Popen(openScadString)           
+        subprocess.Popen(openScadString)     
+        # Then, display new STL preview      
+        STL.draw_STL(window['fig_cv'].TKCanvas, STL.update_STL('Output\output.stl'))
 
 window.close()
