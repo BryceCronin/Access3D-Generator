@@ -7,6 +7,9 @@ import numpy
 
 figure = pyplot.figure()
 axes = figure.add_subplot(projection='3d')
+DPI = figure.get_dpi()
+figure.set_size_inches(500 / float(DPI), 400 / float(DPI))
+axes.margins=(0)
 
 def prepare_STL(file):
     global figure
@@ -37,6 +40,8 @@ def prepare_STL(file):
     # turn off axis display
     axes.axis('off')
 
+    axes.set_facecolor((1, 1 , 1, 1)) 
+
     axes.add_collection3d(polymesh)
 
     return figure
@@ -50,6 +55,7 @@ def update_STL(file):
     # Load the STL files and add the vectors to the plot
     your_mesh = mesh.Mesh.from_file(file)
     axes.add_collection3d(mplot3d.art3d.Poly3DCollection(your_mesh.vectors))
+    
     polymesh = mplot3d.art3d.Poly3DCollection(your_mesh.vectors)
 
     # Auto scale to the mesh size
@@ -70,7 +76,9 @@ def update_STL(file):
     polymesh.set_facecolor(rgba)
 
     # turn off axis display
-    axes.axis('off')
+    axes.axis('off')   
+
+    axes.set_facecolor((1,1,1,1))
 
     axes.add_collection3d(polymesh)
 
