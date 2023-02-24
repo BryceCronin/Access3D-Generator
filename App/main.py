@@ -6,6 +6,7 @@ import datetime
 import A3D
 import STL
 import PySimpleGUI as sg
+import math
 
 default_font = "Arial 13 normal"
 bold_font = "Arial 13 bold"
@@ -102,13 +103,21 @@ while True:
                     title = (str((A3D.extractFields(A3D.getStart(),A3D.getEnd()))[x][y]))
                 elif y == 2:
                     desc += (str((A3D.extractFields(A3D.getStart(),A3D.getEnd()))[x][y]))
-                elif y == 3:
+                elif y == 3:    
                     type += (str((A3D.extractFields(A3D.getStart(),A3D.getEnd()))[x][y]))
             
             if (str((A3D.extractFields(A3D.getStart(),A3D.getEnd()))[x][3])).__contains__('boolean'):
-                config_line = sg.Image('Images\inputCheckbox_0.png', enable_events=True, metadata=False, key=('CHECK', x)), sg.Text(A3D.formatString(title), pad=((15,0),(0,0)), font=bold_font, text_color="#263238"),sg.Text(A3D.formatString(desc), pad=8, font=default_font, text_color="#455A64"),
+                if len(A3D.formatString(desc)) < 46:
+                    lineheight = math.ceil(len(A3D.formatString(desc)) / 56 )
+                else:
+                    lineheight = 1
+                config_line = sg.Image('Images\inputCheckbox_0.png', enable_events=True, metadata=False, key=('CHECK', x)), sg.Text(A3D.formatString(title), pad=((15,0),(0,0)), font=bold_font, text_color="#263238"),sg.Text(A3D.formatString(desc), pad=8, font=default_font, text_color="#455A64", size=(45,lineheight)),
             elif (str((A3D.extractFields(A3D.getStart(),A3D.getEnd()))[x][3])).__contains__('integer'):
-                config_line = sg.Image('Images\inputRounded_l.png', pad=(0,0)),sg.Input("0", key=id, size=7, background_color="#BBDEFB", text_color="#263238", pad=(0,0), font=bold_font, justification="center"),sg.Image('Images\inputRounded_r.png', pad=(0,0)), sg.Text(A3D.formatString(title), pad=((15,0),(0,0)), font=bold_font, text_color="#263238"),sg.Text(A3D.formatString(desc), pad=8, font=default_font, text_color="#455A64"),
+                if len(A3D.formatString(desc)) < 46:
+                    lineheight = math.ceil(len(A3D.formatString(desc)) / 56 )
+                else:
+                    lineheight = 1
+                config_line = sg.Image('Images\inputRounded_l.png', pad=(0,0)),sg.Input("0", key=id, size=7, background_color="#BBDEFB", text_color="#263238", pad=(0,0), font=bold_font, justification="center"),sg.Image('Images\inputRounded_r.png', pad=(0,0)), sg.Text(A3D.formatString(title), pad=((15,0),(0,0)), font=bold_font, text_color="#263238"),sg.Text(A3D.formatString(desc), pad=8, font=default_font, text_color="#455A64",  size=(45,lineheight)),
             window.extend_layout(window['config_column'], [config_line])
 
         STL.draw_STL(window['fig_cv'].TKCanvas, STL.prepare_STL('Output\Test2.stl'))
