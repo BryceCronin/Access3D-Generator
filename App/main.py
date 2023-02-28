@@ -98,26 +98,26 @@ while True:
 
             for y in range(len(list[x])):
                 if y == 0:
-                    id = (str((A3D.extractFields(A3D.getStart(),A3D.getEnd()))[x][y]))
+                    id = (str((list)[x][y]))
                 elif y == 1:
-                    title = (str((A3D.extractFields(A3D.getStart(),A3D.getEnd()))[x][y]))
+                    title = (str((list)[x][y]))
                 elif y == 2:
-                    desc += (str((A3D.extractFields(A3D.getStart(),A3D.getEnd()))[x][y]))
+                    desc += (str((list)[x][y]))
                 elif y == 3:    
-                    type += (str((A3D.extractFields(A3D.getStart(),A3D.getEnd()))[x][y]))
+                    type += (str((list)[x][y]))
             
-            if (str((A3D.extractFields(A3D.getStart(),A3D.getEnd()))[x][3])).__contains__('boolean'):
+            if (str(list[x][3]))==('boolean'):
                 if len(A3D.formatString(desc)) < 46:
                     lineheight = math.ceil(len(A3D.formatString(desc)) / 56 )
                 else:
                     lineheight = 1
                 config_line = sg.Image('Images\inputCheckbox_0.png', enable_events=True, metadata=False, key=('CHECK', x)), sg.Text(A3D.formatString(title), pad=((15,0),(0,0)), font=bold_font, text_color="#263238"),sg.Text(A3D.formatString(desc), pad=8, font=default_font, text_color="#455A64", size=(45,lineheight)),
-            elif (str((A3D.extractFields(A3D.getStart(),A3D.getEnd()))[x][3])).__contains__('integer'):
+            elif (str(list[x][3]))==('integer'):
                 if len(A3D.formatString(desc)) < 46:
                     lineheight = math.ceil(len(A3D.formatString(desc)) / 56 )
                 else:
                     lineheight = 1
-                config_line = sg.Image('Images\inputRounded_l.png', pad=(0,0)),sg.Input("0", key=id, size=7, background_color="#BBDEFB", text_color="#263238", pad=(0,0), font=bold_font, justification="center"),sg.Image('Images\inputRounded_r.png', pad=(0,0)), sg.Text(A3D.formatString(title), pad=((15,0),(0,0)), font=bold_font, text_color="#263238"),sg.Text(A3D.formatString(desc), pad=8, font=default_font, text_color="#455A64",  size=(45,lineheight)),
+                config_line = sg.Image('Images\inputRounded_l.png', pad=(0,0)),sg.Input("0", key=A3D.formatString(id), size=7, background_color="#BBDEFB", text_color="#263238", pad=(0,0), font=bold_font, justification="center"),sg.Image('Images\inputRounded_r.png', pad=(0,0)), sg.Text(A3D.formatString(title), pad=((15,0),(0,0)), font=bold_font, text_color="#263238"),sg.Text(A3D.formatString(desc), pad=8, font=default_font, text_color="#455A64",  size=(45,lineheight)),
             window.extend_layout(window['config_column'], [config_line])
 
         STL.draw_STL(window['fig_cv'].TKCanvas, STL.prepare_STL('Output\Test2.stl'))
@@ -130,11 +130,22 @@ while True:
     # Export STL File
     if event == 'button_export':
         outputFile = (file_output + '/' + os.path.basename(file_input)[:-4] + '_'+ ((datetime.datetime.now()).strftime("%Y %m %d")).replace(" ","-") + "_" + ((datetime.datetime.now()).strftime("%H %M %S")).replace(" ","-") )
-        openScadString = ('openscad -o ' + outputFile + '_output.stl -D"vartest2=5" ' + file_input)
-        print(openScadString )
-        subprocess.Popen(openScadString)     
-        # Then, display new STL preview      
-        STL.draw_STL(window['fig_cv'].TKCanvas, STL.update_STL('Output\output.stl'))
+        openScadString = ('openscad -o ' + outputFile + '_output.stl')
+
+        # Append variables
+        for x in range(len(list[x])+1):
+            # put variables in string
+            openScadString = (openScadString + ' -D\"' + (A3D.formatString(str(A3D.fieldList[x][0]))) + "=")
+            if (str(A3D.fieldList[x][3])=='boolean'):
+                openScadString = (openScadString + "true\"")
+            elif (str(A3D.fieldList[x][3])=='integer'):
+                openScadString = (openScadString + values[A3D.formatString(str(A3D.fieldList[x][0]))] +'\"')
+                
+        openScadString = (openScadString + ' ' + file_input)
+        process = subprocess.Popen(openScadString)     
+        process.wait()
+        savedFile = outputFile + '_output.stl'
+        STL.draw_STL(window['fig_cv'].TKCanvas, STL.update_STL(savedFile)) 
 
     if isinstance(event, tuple) and event[0]=='CHECK':
         state = not window[event].metadata

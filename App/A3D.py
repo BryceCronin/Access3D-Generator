@@ -52,6 +52,7 @@ def extractFields(start,end):
     for x in range(start+1,end):
         # Put current items into a list (type,title,desc)
         currentList = []
+        currentList.clear()
         currentList.append(re.findall(r'\[.*?\]', A3D_lines[x])) # variable
         currentList.append(re.findall(r'\<.*?\>', A3D_lines[x])) # name
         currentList.append(re.findall(r'\{.*?\}', A3D_lines[x])) # description

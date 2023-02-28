@@ -5,9 +5,11 @@ vartest = "A";
 LetterBlock(vartest);
 vartest2 = 30;
 vartest3=30;
-sphere=true;
+vartest4=110;
+sphere2=true;
+test2=false;
 // A3D-Start
-// Boolean [sphere]<Sphere>{Generate an extra sphere for testing?}
+// Boolean [sphere2]<Sphere>{Generate an extra sphere for testing?}
 // Integer [vartest2]<Width>{Enter a number in mm}
 // Integer [vartest3]<Height>{Enter a number in mm}
 // Integer [vartest4]<Depth>{Enter a number in mm}
@@ -18,7 +20,7 @@ sphere=true;
 // size=30 defines an optional parameter with a default value.
 module LetterBlock(letter, size=30) {
     difference() {
-        translate([0,0,size/4]) cube([vartest3,vartest2,size/2], center=true);
+        translate([0,0,size/4]) cube([vartest3,vartest2,vartest4], center=test2);
         translate([0,0,size/6]) {
             // convexity is needed for correct preview
             // since characters can be highly concave
@@ -30,8 +32,8 @@ module LetterBlock(letter, size=30) {
                      valign="center");
         }
     }
-    if (sphere) {
-        sphere(15,15);
+    if (sphere2) {
+        sphere(15);
     }
     
 }
