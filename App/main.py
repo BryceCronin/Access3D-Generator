@@ -137,14 +137,20 @@ while True:
             # put variables in string
             openScadString = (openScadString + ' -D\"' + (A3D.formatString(str(A3D.fieldList[x][0]))) + "=")
             if (str(A3D.fieldList[x][3])=='boolean'):
-                openScadString = (openScadString + "true\"")
+                if (str(window[('CHECK', x)].metadata)) == "True":
+                    openScadString = (openScadString + "1" + '\"')
+                else:
+                    openScadString = (openScadString + "0" + '\"')
             elif (str(A3D.fieldList[x][3])=='integer'):
                 openScadString = (openScadString + values[A3D.formatString(str(A3D.fieldList[x][0]))] +'\"')
-                
+
         openScadString = (openScadString + ' ' + file_input)
+        print(openScadString)
         process = subprocess.Popen(openScadString)     
         process.wait()
         savedFile = outputFile + '_output.stl'
+
+        # update preview
         STL.draw_STL(window['fig_cv'].TKCanvas, STL.update_STL(savedFile)) 
 
     if isinstance(event, tuple) and event[0]=='CHECK':
