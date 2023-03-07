@@ -117,7 +117,7 @@ while True:
                     lineheight = math.ceil(len(A3D.formatString(desc)) / 56 )
                 else:
                     lineheight = 1
-                config_line = sg.Image('Images\inputRounded_l.png', pad=(0,0)),sg.Input("0", key=A3D.formatString(id), size=7, background_color="#BBDEFB", text_color="#263238", pad=(0,0), font=bold_font, justification="center"),sg.Image('Images\inputRounded_r.png', pad=(0,0)), sg.Text(A3D.formatString(title), pad=((15,0),(0,0)), font=bold_font, text_color="#263238"),sg.Text(A3D.formatString(desc), pad=8, font=default_font, text_color="#455A64",  size=(45,lineheight)),
+                config_line = sg.Image('Images\inputRounded_l.png', pad=(0,0)),sg.Input("1", key=A3D.formatString(id), size=7, background_color="#BBDEFB", text_color="#263238", pad=(0,0), font=bold_font, justification="center"),sg.Image('Images\inputRounded_r.png', pad=(0,0)), sg.Text(A3D.formatString(title), pad=((15,0),(0,0)), font=bold_font, text_color="#263238"),sg.Text(A3D.formatString(desc), pad=8, font=default_font, text_color="#455A64",  size=(45,lineheight)),
             window.extend_layout(window['config_column'], [config_line])
 
         STL.draw_STL(window['fig_cv'].TKCanvas, STL.prepare_STL('Output\Test2.stl'))
@@ -147,11 +147,35 @@ while True:
         openScadString = (openScadString + ' ' + file_input)
         print(openScadString)
         process = subprocess.Popen(openScadString)     
-        process.wait()
-        savedFile = outputFile + '_output.stl'
+        # process.wait()
+        # savedFile = outputFile + '_output.stl'
 
-        # update preview
-        STL.draw_STL(window['fig_cv'].TKCanvas, STL.update_STL(savedFile)) 
+        # STL.draw_STL(window['fig_cv'].TKCanvas, STL.update_STL(savedFile)) 
+
+    # Update 3D Preview
+    if event == 'button_update':
+        outputFilePreview = (file_output + '/' + os.path.basename(file_input)[:-4] )
+        openScadStringPreview = ('openscad -o ' + outputFilePreview + '_backup.stl')
+
+        # Append variables
+        for x in range(len(list[x])+1):
+            # put variables in string
+            openScadStringPreview= (openScadStringPreview + ' -D\"' + (A3D.formatString(str(A3D.fieldList[x][0]))) + "=")
+            if (str(A3D.fieldList[x][3])=='boolean'):
+                if (str(window[('CHECK', x)].metadata)) == "True":
+                    openScadStringPreview = (openScadStringPreview + "1" + '\"')
+                else:
+                    openScadStringPreview = (openScadStringPreview + "0" + '\"')
+            elif (str(A3D.fieldList[x][3])=='integer'):
+                openScadStringPreview = (openScadStringPreview + values[A3D.formatString(str(A3D.fieldList[x][0]))] +'\"')
+
+        openScadStringPreview = (openScadStringPreview + ' ' + file_input)
+        print(openScadStringPreview)
+        processPreview = subprocess.Popen(openScadStringPreview)   
+
+        processPreview.wait()
+        savedFilePreview = outputFilePreview + '_backup.stl'
+        STL.draw_STL(window['fig_cv'].TKCanvas, STL.update_STL(savedFilePreview)) 
 
     if isinstance(event, tuple) and event[0]=='CHECK':
         state = not window[event].metadata

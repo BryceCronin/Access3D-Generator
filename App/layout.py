@@ -30,7 +30,7 @@ layout_configure_right = [
     [sg.Image('Images\Logo_sm.png')],
     [sg.Column(layout_settings, key='config_column', element_justification='l')],
     [sg.Text('')],
-    [button.Rounded('Export 3D File', 0.3, key="button_export")],
+    [button.Rounded('Update Preview', 0.3, key="button_update", button_color=(button_secondary_color,button_secondary_background),mouseover_colors=(button_secondary_color,"white")),button.Rounded('Export 3D File', 0.3, key="button_export")],
 ]
 
 layout_configure_left = [
@@ -46,5 +46,3 @@ layout = [
     [sg.Column(layout_initial, key='column_initial', element_justification='c'), sg.Column(layout_configure, visible=False, key='column_configure', element_justification='c')],
     [sg.Text('')],
 ]
-
-# [button.Rounded('Back', 0.3, key="button_back", button_color=(button_secondary_color,button_secondary_background),mouseover_colors=(button_secondary_color,"white"))], # Do we even need a back button?
