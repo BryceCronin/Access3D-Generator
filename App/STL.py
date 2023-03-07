@@ -1,10 +1,11 @@
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
-from stl import mesh
-from mpl_toolkits import mplot3d
-from matplotlib import pyplot
-from matplotlib.colors import LightSource
 import numpy
+from matplotlib import pyplot
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+from matplotlib.colors import LightSource
+from mpl_toolkits import mplot3d
+from stl import mesh
 
+# Setup Plot
 figure = pyplot.figure()
 axes = figure.add_subplot(projection='3d')
 DPI = figure.get_dpi()

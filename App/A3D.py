@@ -1,7 +1,6 @@
 import re
-import PySimpleGUI as sg
-import layout
 
+# String variabes
 A3D_start = -1 # Line number of A3D-Start
 A3D_end = - 1 # Line number of A3D-End
 A3D_file = 0

@@ -1,3 +1,19 @@
+# Access3D Generator App by Bryce Cronin. 2023. V0.1.
+# A simple proof-of-concept CAD editor designed for customising Accessible 3D (A3D) files and exporting them to STL.
+# This app was created for the Estee Lauder "Hack4Ally" Accessible Beauty Hackathon and is not intended as a final product (at this stage).
+#
+#   _    _            _    _  _         __ __       
+#  | |  | |          | |  | || |   /\  /_ /_ |      
+#  | |__| | __ _  ___| | _| || |_ /  \  | || |_   _ 
+#  |  __  |/ _` |/ __| |/ /__   _/ /\ \ | || | | | |
+#  | |  | | (_| | (__|   <   | |/ ____ \| || | |_| |
+#  |_|  |_|\__,_|\___|_|\_\  |_/_/    \_\_||_|\__, |
+#                                              __/ |
+#                                             |___/ 
+# Project status:
+# Currently, this app runs only on Windows and you must have OpenSCAD installed. Ensure your PATH includes OpenSCAD.
+# In future, I plan on developing a platform-agnostic and easily accessible web app (using the webassembly port of OpenSCAD) that will replace this Python app.
+
 import os
 import PySimpleGUI as sg
 import subprocess
@@ -8,27 +24,27 @@ import STL
 import PySimpleGUI as sg
 import math
 
+# Custom Theme
+checked = 'Images\inputCheckbox_1.png'
+unchecked = 'Images\inputCheckbox_0.png'
+data = {0:unchecked, 1:checked}
 default_font = "Arial 13 normal"
 bold_font = "Arial 13 bold"
 
 # Create Window
 window = sg.Window('Access3D Generator', layout.layout, icon='Images\icon.ico', element_justification='c', margins=(0,0), font=default_font)
 
-checked = 'Images\inputCheckbox_1.png'
-unchecked = 'Images\inputCheckbox_0.png'
-data = {0:unchecked, 1:checked}
-
-# Initiate variables
+# Variables
 file_input = ""
 file_output = ""
 file_valid = True
 
-# Event Loop to process 'events' and get the 'values' of the inputs
+# Loop
 while True:
     event, values = window.read()
 
     # Close App
-    if event == sg.WIN_CLOSED or event == 'Cancel': # if user closes window or clicks cancel
+    if event == sg.WIN_CLOSED or event == 'Cancel':
         break
 
     # Input A3D File
@@ -83,10 +99,12 @@ while True:
     # Continue to configure
     if file_input != "" and file_output != "" and file_valid == True:
         window['button_configure'].update(visible=True)
+
     if event == 'button_configure':
         window['column_initial'].update(visible=False)
         window['column_configure'].update(visible=True)
 
+        # Extract inputs from A3D file
         A3D.initiateFile(file_input)
         list = A3D.extractFields(A3D.getStart(),A3D.getEnd())
         for x in range(len(list)):
@@ -106,6 +124,7 @@ while True:
                 elif y == 3:    
                     type += (str((list)[x][y]))
             
+            # Add inputs to layout
             if (str(list[x][3]))==('boolean'):
                 if len(A3D.formatString(desc)) < 46:
                     lineheight = math.ceil(len(A3D.formatString(desc)) / 56 )
@@ -120,21 +139,22 @@ while True:
                 config_line = sg.Image('Images\inputRounded_l.png', pad=(0,0)),sg.Input("1", key=A3D.formatString(id), size=7, background_color="#BBDEFB", text_color="#263238", pad=(0,0), font=bold_font, justification="center"),sg.Image('Images\inputRounded_r.png', pad=(0,0)), sg.Text(A3D.formatString(title), pad=((15,0),(0,0)), font=bold_font, text_color="#263238"),sg.Text(A3D.formatString(desc), pad=8, font=default_font, text_color="#455A64",  size=(45,lineheight)),
             window.extend_layout(window['config_column'], [config_line])
 
-        STL.draw_STL(window['fig_cv'].TKCanvas, STL.prepare_STL('Output\Test2.stl'))
-
-    # Return to initial
-    if event == 'button_back':
-        window['column_initial'].update(visible=True)
-        window['column_configure'].update(visible=False)
+        # Initial preview
+        outputFilePreview = (file_output + '/' + os.path.basename(file_input)[:-4] )
+        openScadStringPreview = ('openscad -o ' + outputFilePreview + '_backup.stl')
+        openScadStringPreview = (openScadStringPreview + ' ' + file_input)
+        processPreview = subprocess.Popen(openScadStringPreview)   
+        processPreview.wait()
+        savedFilePreview = outputFilePreview + '_backup.stl'
+        STL.draw_STL(window['fig_cv'].TKCanvas, STL.update_STL(savedFilePreview)) 
 
     # Export STL File
     if event == 'button_export':
         outputFile = (file_output + '/' + os.path.basename(file_input)[:-4] + '_'+ ((datetime.datetime.now()).strftime("%Y %m %d")).replace(" ","-") + "_" + ((datetime.datetime.now()).strftime("%H %M %S")).replace(" ","-") )
         openScadString = ('openscad -o ' + outputFile + '_output.stl')
 
-        # Append variables
+        # Put variables into string
         for x in range(len(list[x])+1):
-            # put variables in string
             openScadString = (openScadString + ' -D\"' + (A3D.formatString(str(A3D.fieldList[x][0]))) + "=")
             if (str(A3D.fieldList[x][3])=='boolean'):
                 if (str(window[('CHECK', x)].metadata)) == "True":
@@ -144,13 +164,9 @@ while True:
             elif (str(A3D.fieldList[x][3])=='integer'):
                 openScadString = (openScadString + values[A3D.formatString(str(A3D.fieldList[x][0]))] +'\"')
 
+        # Run OpenSCAD
         openScadString = (openScadString + ' ' + file_input)
-        print(openScadString)
         process = subprocess.Popen(openScadString)     
-        # process.wait()
-        # savedFile = outputFile + '_output.stl'
-
-        # STL.draw_STL(window['fig_cv'].TKCanvas, STL.update_STL(savedFile)) 
 
     # Update 3D Preview
     if event == 'button_update':
@@ -159,7 +175,7 @@ while True:
 
         # Append variables
         for x in range(len(list[x])+1):
-            # put variables in string
+            # Put variables in string
             openScadStringPreview= (openScadStringPreview + ' -D\"' + (A3D.formatString(str(A3D.fieldList[x][0]))) + "=")
             if (str(A3D.fieldList[x][3])=='boolean'):
                 if (str(window[('CHECK', x)].metadata)) == "True":
@@ -169,14 +185,14 @@ while True:
             elif (str(A3D.fieldList[x][3])=='integer'):
                 openScadStringPreview = (openScadStringPreview + values[A3D.formatString(str(A3D.fieldList[x][0]))] +'\"')
 
+        # Export preview to file and display
         openScadStringPreview = (openScadStringPreview + ' ' + file_input)
-        print(openScadStringPreview)
         processPreview = subprocess.Popen(openScadStringPreview)   
-
         processPreview.wait()
         savedFilePreview = outputFilePreview + '_backup.stl'
         STL.draw_STL(window['fig_cv'].TKCanvas, STL.update_STL(savedFilePreview)) 
 
+    # Handle custom checkboxes
     if isinstance(event, tuple) and event[0]=='CHECK':
         state = not window[event].metadata
         window[event].metadata = state
