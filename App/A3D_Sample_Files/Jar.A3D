@@ -1,0 +1,29 @@
+// Simple jar opener by Bryce Cronin 2023
+
+jardiameter = 100;
+gripdiameter = 120;
+gripheight = 20;
+gripdots = true;
+
+// A3D-Start
+// Integer [jardiameter]<Jar_Diameter>{The size of the cosmetics jar in mm}
+// Integer [gripdiameter]<Grip_Diameter>{The size you want the grip to be in mm}
+// Integer [gripheight]<Grip_Height>{The height you want the grip to be in mm}
+// Boolean [gripdots]<Grip_Dots>{Include dots for extra grip}
+// A3D-End
+
+difference(){
+    union(){
+        cylinder(r=gripdiameter/2, h=gripheight, $fn=10);
+        if (gripdots==true) {
+            for(i=[0:10]){
+                rotate([0,0,i*(360/10)+17]){
+                    translate([gripdiameter/2-7, 0,gripheight/2]){
+                        sphere(d = gripheight - 5);
+                    }
+                }
+            }
+        }
+    }
+    cylinder(r=jardiameter/2, h=gripheight-8);
+}

@@ -57,7 +57,7 @@ def extractFields(start,end):
         currentList.append(re.findall(r'\{.*?\}', A3D_lines[x])) # description
         if A3D_lines[x].__contains__("Boolean"):
             currentList.append('boolean')
-        elif A3D_lines[x].__contains__("Integer"):
+        else:
             currentList.append('integer')
         # Then add list to list of list
         fieldList.append(currentList)

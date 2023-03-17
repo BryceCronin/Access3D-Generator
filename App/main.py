@@ -131,7 +131,7 @@ while True:
                 else:
                     lineheight = 1
                 config_line = sg.Image('Images\inputCheckbox_0.png', enable_events=True, metadata=False, key=('CHECK', x)), sg.Text(A3D.formatString(title), pad=((15,0),(0,0)), font=bold_font, text_color="#263238"),sg.Text(A3D.formatString(desc), pad=8, font=default_font, text_color="#455A64", size=(45,lineheight)),
-            elif (str(list[x][3]))==('integer'):
+            else:
                 if len(A3D.formatString(desc)) < 46:
                     lineheight = math.ceil(len(A3D.formatString(desc)) / 56 )
                 else:
@@ -154,7 +154,7 @@ while True:
         openScadString = ('openscad -o ' + outputFile + '_output.stl')
 
         # Put variables into string
-        for x in range(len(list[x])+1):
+        for x in range(len(list)):
             openScadString = (openScadString + ' -D\"' + (A3D.formatString(str(A3D.fieldList[x][0]))) + "=")
             if (str(A3D.fieldList[x][3])=='boolean'):
                 if (str(window[('CHECK', x)].metadata)) == "True":
@@ -174,14 +174,14 @@ while True:
         openScadStringPreview = ('openscad -o ' + outputFilePreview + '_backup.stl')
 
         # Append variables
-        for x in range(len(list[x])+1):
-            # Put variables in string
+        for x in range(len(list)):
+            # Put variables in string 
             openScadStringPreview= (openScadStringPreview + ' -D\"' + (A3D.formatString(str(A3D.fieldList[x][0]))) + "=")
             if (str(A3D.fieldList[x][3])=='boolean'):
                 if (str(window[('CHECK', x)].metadata)) == "True":
-                    openScadStringPreview = (openScadStringPreview + "1" + '\"')
+                    openScadStringPreview = (openScadStringPreview + "true" + '\"')
                 else:
-                    openScadStringPreview = (openScadStringPreview + "0" + '\"')
+                    openScadStringPreview = (openScadStringPreview + "false" + '\"')
             elif (str(A3D.fieldList[x][3])=='integer'):
                 openScadStringPreview = (openScadStringPreview + values[A3D.formatString(str(A3D.fieldList[x][0]))] +'\"')
 
