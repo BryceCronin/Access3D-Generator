@@ -1,0 +1,22 @@
+// Simple bottle holder stand by Bryce Cronin 2023
+
+buttondiameter = 50;
+nozzlewidth = 15;
+nozzleheight = 10;
+nozzlestrap = 10;
+
+// A3D-Start
+// Integer [nozzlewidth]<Nozzle Width>{The width of the existing nozzle (mm)}
+// Integer [nozzleheight]<Nozzle Height>{The height of the existing nozzle (mm)}
+// Integer [buttondiameter]<Button Diameter>{The diameter you want the button to be (mm)}
+// Integer [nozzlestrap]<Button Depth>{How far back should the nozzle be (default is 0)(mm)}
+// A3D-End
+
+union() {
+    difference(){
+        cylinder(r=(buttondiameter/2), h=5+nozzleheight);
+        cube([nozzlewidth,buttondiameter,nozzleheight*2],true);
+    }
+    translate([0,nozzlestrap,-1]) 
+    cube([nozzlewidth+8,10,4],true);
+}
