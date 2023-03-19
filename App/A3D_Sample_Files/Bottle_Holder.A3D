@@ -1,0 +1,19 @@
+// Simple bottle holder stand by Bryce Cronin 2023
+
+bottlediameter = 45;
+holderheight = 50;
+holderbasediameter = 90;
+
+// A3D-Start
+// Integer [bottlediameter]<Bottle Diameter>{The diameter of the bottle (mm)}
+// Integer [holderheight]<Holder Height>{The height you want the holder to be (mm)}
+// Integer [gripdiameter]<Holder Base Diameter>{The diameter you want the holder base to be (mm)}
+// A3D-End
+
+difference(){
+    union() {
+        cylinder(r=(bottlediameter/2)+3, h=holderheight);
+        cylinder(r=holderbasediameter/2, h=3);
+    }
+    cylinder(r=bottlediameter/2, h=holderheight);
+}
