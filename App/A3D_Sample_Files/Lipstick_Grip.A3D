@@ -1,0 +1,18 @@
+// Simple lipstick grip by Bryce Cronin 2023
+
+tubediameter = 19;
+tubedepth = 15;
+gripdiameter = 30;
+griplength = 60;
+
+// A3D-Start
+// Integer [tubediameter]<Tube Diameter>{The diameter of the lipstick tube (mm)}
+// Integer [tubedepth]<Tube Depth>{The depth of the tube inside the grip (mm)}
+// Integer [gripdiameter]<Grip Diameter>{The size you want the grip to be (mm)}
+// Integer [griplength]<Grip Height>{The length you want the grip to be (mm)}
+// A3D-End
+
+difference(){
+    cylinder(r=gripdiameter/2, h=griplength, $fn=6);
+    cylinder(r=tubediameter/2, h=tubedepth);
+}

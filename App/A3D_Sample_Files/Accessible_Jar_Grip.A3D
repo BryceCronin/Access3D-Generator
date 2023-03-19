@@ -6,10 +6,10 @@ gripheight = 20;
 gripdots = true;
 
 // A3D-Start
-// Integer [jardiameter]<Jar_Diameter>{The size of the cosmetics jar in mm}
-// Integer [gripdiameter]<Grip_Diameter>{The size you want the grip to be in mm}
-// Integer [gripheight]<Grip_Height>{The height you want the grip to be in mm}
-// Boolean [gripdots]<Grip_Dots>{Include dots for extra grip}
+// Integer [jardiameter]<Lid Diameter>{The size of the cosmetics jar lid (mm)}
+// Integer [gripdiameter]<Grip Diameter>{How large would you like the grip to be? (mm)}
+// Integer [gripheight]<Grip Height>{How tall would you like the grid to be? (mm)}
+// Boolean [gripdots]<Grip Dots>{Include extra grip?}
 // A3D-End
 
 difference(){

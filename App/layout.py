@@ -15,7 +15,7 @@ layout_initial = [
     [sg.Text('')],
     [sg.Image('Images\Logo.png')],
     [sg.Text('')],
-    [sg.Text('This is the (work-in-progress) Access3D Generator App.')],
+    [sg.Text('This is the Access3D Generator App.')],
     [sg.Text('It allows you to customise 3D-printable accessibility devices to your needs.')],
     [sg.Text('Exported files are in the universal STL format - ready for 3D-printing anywhere.')],
     [sg.Text('')],
