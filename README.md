@@ -34,6 +34,8 @@ The next version of Access3D Generator will use JSON instead of the above standa
 ## Important Note
 To make Access3D Generator as accessible as possible, I am working on updating Access3D Generator so that it runs on the web.  This will remove the need for the below setup process, **which some users will find difficult**. This will be completed after the conclusion of the ELC Accessible Beauty Hackathon.
 
+I recommend visiting the [Access3D Generator Devpost page](https://devpost.com/software/wip-wo4d6r) for a recorded demo of the working app.
+
 
 ## Requirements
 
